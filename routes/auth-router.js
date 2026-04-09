@@ -6,8 +6,8 @@ import { postRegisterValidation, postLoginValidation, postForgotPasswordValidati
 import {handleValidationErrors} from '../middlewares/handleValidation.js';
 
 // Login route
-router.get('/', IsAuthForLogin, GetLogin);
-router.post('/login', IsAuthForLogin, postLoginValidation, handleValidationErrors("/"), PostLogin);
+router.get('/', isAuthForLogin, GetLogin);
+router.post('/login', isAuthForLogin, postLoginValidation, handleValidationErrors("/"), PostLogin);
 
 router.get('/user-register', isAuthForLogin, GetRegister);
 router.post('/user-register', isAuthForLogin, postRegisterValidation, handleValidationErrors("/user-register"), PostRegister);
