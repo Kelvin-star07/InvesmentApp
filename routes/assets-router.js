@@ -7,7 +7,7 @@ import {
   GetEdit,
   PostEdit
 } from "../controllers/AssetsController.js";
-import isAuth from "../middlewares/IsAuth.js";
+import isAuth from "../middlewares/isAuth.js";
 import { AssetCreateValidation,AssetEditValidation,AssetIdValidation,AssetDeleteValidation } from "./validation/AssetsValidation.js";
 import { handleValidationErrors } from "../middlewares/handleValidation.js";
 
