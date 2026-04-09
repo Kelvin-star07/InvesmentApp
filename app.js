@@ -7,14 +7,14 @@ import authRoutes from "./routes/auth-router.js";
 import dasboardRoutes from "./routes/dasboard-router.js";
 import assetsTypeRoutes from "./routes/assets-type-router.js";
 import assetsRoutes from "./routes/assets-router.js";
-import session from "express-session"; // Import express-session for session management
+import session, { Store } from "express-session"; // Import express-session for session management
 import flash from "connect-flash"; // Import connect-flash for flash messages
 import connectToMongoDB from "./utils/MongooseConnection.js"; // Import the function to connect to MongoDB
 import { GetSection } from "./utils/helpers/Hbs/Section.js"; // Import the section helper
 import { Equals } from "./utils/helpers/Hbs/Compare.js"; // Import the section helper
 import multer from "multer"; // Import multer for file uploads
 import { v4 as guidV4 } from "uuid";
-
+import MongoStore from "connect-mongo";
 const app = express();
 
 //render engine
@@ -53,7 +53,13 @@ app.use(multer({ storage: imageStorageForLogoAssets }).single("Logo")); // Use m
 app.use(session({
   secret: process.env.SECRET_KEY || "anything",
   resave: process.env.VALUE_RESAVE, 
-  saveUninitialized: process.env.VALUE_SAVE_UNINITIALIZED
+  saveUninitialized: process.env.VALUE_SAVE_UNINITIALIZED,
+  Store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI || "mongodb://localhost:27017/assets-app",
+    collectionName: "sessions",
+    ttl: 1 * 24 * 60 * 60, // Session expiration time (1 day in seconds)
+  }),
+
  })); // Use express-session for session management
 
 app.use(flash()); // Use connect-flash for flash messages
